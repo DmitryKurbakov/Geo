@@ -1,0 +1,18 @@
+{
+  "name": "gf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "geojson-helpers": "^0.2.1",
+    "jquery": "^3.1.1",
+    "node-static": "^0.7.9",
+    "pg": "latest",
+    "sql": "^0.72.0"
+  }
+}
