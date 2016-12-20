@@ -2,17 +2,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=sotnwsmeEzZibKBg7xTQ4VeCQRwISpnC&amp;width=626&amp;height=486&amp;lang=ru_RU&amp;sourceType=constructor&amp;scroll=true"></script>
+    <script src="js/leaflet/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="js/leaflet/leaflet.css" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="js/leaflet/leaflet.ie.css" />
+    <![endif]-->
+
+    <script src="js/leaflet/leaflet.js"></script>
+
+    <script src="js/map.init.js"></script>
+    <script src="js/input.handler.js"></script>
+
 </head>
 <body>
 
-<script type="text/javascript">
+<div ><input class="text_in_modal_form" id="request_name" value="text"></div>
+<div id="map"></div>
 
-    $(document).ready(function(){
-        console.log('hello')
-    });
+<script type='text/javascript'>
+    var map = L.map('map').setView([55.726944, 37.6075], 10);
 
+    //Добавляем на нашу карту слой OpenStreetMap
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a rel="nofollow" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    addMarker('xer', [55.726944, 37.6075]);
+    addMarker('jopa',[55.626944, 37.575]);
+
+    function addMarker(arg, point) {
+
+        var marker = L.marker(point).addTo(map);
+
+        marker.on('click', function(){
+
+            $('#modal_form').css('display', 'block').animate({opacity: 0.8, top: '50%'}, 200);
+            $('#text_in_modal_form').text(arg);
+
+            $('#modal_close, #overlay').click( function(){ // лoвим клик пo крестику или пoдлoжке
+                    $('#modal_form').animate({opacity: 0.8, top: '45%'}, 200, function(){ // пoсле aнимaции
+                                $(this).css('display', 'none'); // делaем ему display: none;
+                            }
+                        );
+                })
+        })
+
+
+    }
+
+
+
+
+
+    //marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
 </script>
+
+
+<div id="modal_form"><!-- Сaмo oкнo -->
+    <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
+    <div id="text_in_modal_form"></div>
+</div>
 </body>
 </html>
