@@ -1,6 +1,10 @@
 
 
 window.onload = function () {
+
+
+
+
     var markerGroup = new L.FeatureGroup();
     $('#request_name').empty();
     var request_name = document.getElementById('request_name');

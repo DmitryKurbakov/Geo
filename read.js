@@ -7,9 +7,6 @@ var yandex_name = [];
 var yandex_address = [];
 var yandex_url = [];
 var yandex_point = [];
-var yandex_coord_x = [];
-var yandex_coord_y = [];
-var yandex_point_str = [];
 var request = 'Магазин обуви';
 
 
@@ -44,42 +41,24 @@ var smth;
 
 function doAsync(callback) {
     var query = client.query('select id from yandex', function (err, result) {
-        callback(err, result)
+        callback(err, result);
+        throw err;
     });
 }
 
 doAsync(function (err, result) {
-    var temp = [];
-    for (var i = 0; i < result.rows.length; i++){
-        temp.push(result.rows[i].id);
-    }
+
 
     for (var i = 0; i < data.features.length; i++){
-        if (temp.indexOf(parseInt(data.features[i].properties.CompanyMetaData.id)) == -1){
-            yandex_id.push(parseInt(data.features[i].properties.CompanyMetaData.id));
             yandex_name.push(data.features[i].properties.CompanyMetaData.name);
             yandex_address.push(data.features[i].properties.CompanyMetaData.address);
             yandex_url.push(data.features[i].properties.CompanyMetaData.url);
             yandex_point.push(data.features[i].geometry.coordinates.toString());
-        }
     }
 
-    for (var i = 0; i < yandex_id.length; i++){
-        for (var j = 0; j < yandex_id.length; j++){
-            if (parseInt(yandex_id[i]) == parseInt(yandex_id[j])){
-                yandex_id.splice(j, 1);
-                yandex_name.splice(j, 1);
-                yandex_address.splice(j, 1);
-                yandex_url.splice(j, 1);
-                yandex_point.splice(j, 1);
+    for (var i = 0; i < yandex_id.length - 1; i++){
+                client.query("INSERT INTO public.yandex(name, address, url, point, request) VALUES('" + yandex_name[i] + "', '" + yandex_address[i] + "', '" + yandex_url[i] + "', '" + yandex_point[i] + "', '" + request + "');");
             }
-        }
-    }
-
-
-    for (var i = 0; i < yandex_id.length; i++) {
-        client.query("INSERT INTO public.yandex(id, name, address, url, point, request) VALUES('" + yandex_id[i] + "', '" + yandex_name[i] + "', '" + yandex_address[i] + "', '" + yandex_url[i] + "', '" + yandex_point[i] + "', '" + request + "');");
-    }
 
 })
 

@@ -28,18 +28,17 @@
         attribution: '&copy; <a rel="nofollow" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    $.get('avito.json', function (result) {
+    $.get('http://localhost/', function (result) {
         console.log(result);
-        for (var i = 0; i < result.data.length; i++){
+        for (var i = 0; i < result.rows.length; i++){
             var point = [];
             var data = [];
-            point.push(parseFloat(result.data[i].coords.lat));
-            point.push(parseFloat(result.data[i].coords.lng));
-            var tempstr = result.data[i].city + ", " + result.data[i].address;
-            data.push(tempstr);
-            data.push(result.data[i].time);
-            data.push(result.data[i].description);
-            data.push(result.data[i].url);
+            point.push(parseFloat(result.rows[i].point.x));
+            point.push(parseFloat(result.rows[i].point.y));
+            data.push(result.rows[i].address);
+            data.push(result.rows[i].time);
+            data.push(result.rows[i].description);
+            data.push(result.rows[i].url);
             addMarkerAvito(data, point);
         }
     });
